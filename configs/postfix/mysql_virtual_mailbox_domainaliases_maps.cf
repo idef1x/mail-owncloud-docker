@@ -1,0 +1,9 @@
+user = sqladmin
+password = VAR_SQLPWD
+hosts = 127.0.0.1
+dbname = mail
+query = SELECT maildir FROM postfix_mailbox, postfix_alias_domain
+  WHERE postfix_alias_domain.alias_domain = '%d'
+  AND postfix_mailbox.username=concat('%u', '@', postfix_alias_domain.target_domain )
+  AND postfix_mailbox.active = 1
+

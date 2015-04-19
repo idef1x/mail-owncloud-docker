@@ -1,0 +1,9 @@
+user = sqladmin
+password = VAR_SQLPWD
+hosts = 127.0.0.1
+dbname = mail
+table = postfix_domain
+select_field = domain
+where_field = domain
+additional_conditions = and backupmx = '0' and active = '1'
+

@@ -1,0 +1,9 @@
+user = sqladmin
+password = VAR_SQLPWD
+hosts = 127.0.0.1
+dbname = mail
+query = SELECT goto FROM postfix_alias,postfix_alias_domain
+  WHERE postfix_alias_domain.alias_domain = '%d'
+  AND postfix_alias.address=concat('%u', '@', postfix_alias_domain.target_domain)
+  AND postfix_alias.active = 1
+

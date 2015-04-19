@@ -1,0 +1,8 @@
+user = sqladmin
+password = VAR_SQLPWD
+hosts = 127.0.0.1
+dbname = mail
+table = postfix_alias
+select_field = goto
+where_field = address
+additional_conditions = and active = '1'

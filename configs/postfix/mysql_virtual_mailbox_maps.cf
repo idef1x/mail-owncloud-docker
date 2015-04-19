@@ -1,0 +1,9 @@
+user = sqladmin
+password = VAR_SQLPWD
+hosts = 127.0.0.1
+dbname = mail
+table = postfix_mailbox
+select_field = CONCAT(domain, '/', local_part)
+where_field = username
+additional_conditions = and active = '1'
+
