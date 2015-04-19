@@ -6,7 +6,6 @@ if [ -f /firstrun ]
 
     echo "Running for first time..need to configure..."
 
-    source /ssh-setup.sh
     source /mysql-setup.sh
     source /mail-setup.sh
     source /apache-setup.sh
@@ -17,8 +16,6 @@ if [ -f /firstrun ]
   else
     # Start syslog server
     /etc/init.d/rsyslog start
-    # start sshd server
-    /etc/init.d/ssh start
 
     # start mysql server
     /etc/init.d/mysql start

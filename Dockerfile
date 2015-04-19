@@ -24,7 +24,6 @@ RUN echo "postfix postfix/main_mailer_type select Local only" | debconf-set-sele
 RUN apt-get update && apt-get install -yq\
         dovecot-imapd dovecot-mysql dovecot-sieve \
 	mcrypt \
-	openssh-server \
 	owncloud \
 	php5-imap \
 	phpmyadmin \
