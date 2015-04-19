@@ -46,7 +46,7 @@ RUN chmod a+r /etc/roundcube/*
 # Cleanup
 RUN apt-get clean
 
-EXPOSE 22 25 143 993 465 443
+EXPOSE 25 143 993 465 443
 
 ENTRYPOINT [ "/startup.sh" ]
 
