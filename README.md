@@ -20,7 +20,7 @@ docker run -P -d -h <FQDN of server> idef1x/mail-owncloud-docker
 # Postfixadmin
 Default user/pwd: admin@example.com/postfix
 
-Please create you own superadmin for the domains and so you can delete the default
+Please create you own superadmin for the domains so you can delete the default
 
 # To Do:
 - Apache certificates
