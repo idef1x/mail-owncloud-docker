@@ -20,22 +20,25 @@ docker run -d \
   idef1x/mail-owncloud-docker
 ```
 # Optional environment vars to use:
+```
 - SQLUSR  => mysql admin user (default admin)
 - SQLPWD  => mysql user password (default random generated -> see logs for the password (docker logs <container ID>|grep password)
 - SQLHOST => in case you use an external mysql server (default localhost)
 - SQLDB   => in case you use an extern mysql server (default mail for mail and owncloud for owncloud)
              NB: only supply de datbase for mail, since owncloud will ask for it during setup.
 - WEB     => if set then no SSL wil be activated (in case you use a SSL proxy or other reason why you don't want SSL)
-
+```
 # Postfixadmin
+```
 - First setup goto http(s)://hostname/postfixadmin/setup.php to initialize database
 - setup an setup password and copy paste the red $CONF string into /var/www/postfixadmin/config.local.php (before the last ?>):
   - open een shell in the container: docker exec -it <container ID> bash
   - edit file (vi)
   - save and exit shell
 - Then goto http(s)://hostname/postfixadmin to configure domains and mailboxes etc
-
+```
 # Owncloud
+```
 - goto http(s)://hostname 
 - fill in a username/password for an admin user
 - select mysql database (or sqlite if you don't care about performance)
@@ -45,12 +48,13 @@ docker run -d \
 
 - NB: sometimes owncloud wines about not able to connect to sql server (if localhost/127.0.0.1). Most times a second try will work.
       Putting 127.0.0.1 in the host field (instead of localhost) seems to work better than localhost. For now I don't know what's picky. 
-
+```
 # Webmail
+```
 - you can use the mail client provided by (installable via) owncloud 
   - fill in details and select SSL/TLS as IMAP/SMTP security 
   - Use 127.0.0.1 as IMAP and SMTP host 
-
+```
 # To use own certificates:
 ```
 - For Apache certificates add parameters:
