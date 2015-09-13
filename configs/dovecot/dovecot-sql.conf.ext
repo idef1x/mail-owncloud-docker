@@ -63,7 +63,7 @@ driver = mysql
 #   connect = host=sql.example.com dbname=virtual user=virtual password=blarg
 #   connect = /etc/dovecot/authdb.sqlite
 #
-connect = host=127.0.0.1 dbname=mail user=sqladmin password=VAR_SQLPWD
+connect = host=VAR_SQLHOST dbname=VAR_SQLDB user=VAR_SQLUSR password=VAR_SQLPWD
 
 # Default password scheme.
 #

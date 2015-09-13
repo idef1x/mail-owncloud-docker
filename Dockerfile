@@ -1,6 +1,6 @@
 # Docker-VPSr
 #
-# VERSION               0.1
+# VERSION               0.5
 
 FROM      ubuntu:14.04
 MAINTAINER idef1x <docker@sjomar.eu>
@@ -10,8 +10,8 @@ ENV DEBIAN_FRONTEND noninteractive
 # create file to see if this is the firstrun when started
 RUN touch /firstrun
 
-RUN apt-get update && apt-get install -y \
-	wget
+RUN apt-get update && apt-get dist-upgrade -y 
+RUN apt-get install -y wget 
 
 RUN sh -c "echo 'deb http://download.opensuse.org/repositories/isv:/ownCloud:/community/xUbuntu_14.04/ /' >> /etc/apt/sources.list.d/owncloud.list"
 RUN wget http://download.opensuse.org/repositories/isv:ownCloud:community/xUbuntu_14.04/Release.key
@@ -22,31 +22,32 @@ RUN rm Release.key
 RUN echo "postfix postfix/main_mailer_type select Local only" | debconf-set-selections
 
 RUN apt-get update && apt-get install -yq\
-        dovecot-imapd dovecot-mysql dovecot-sieve \
-	mcrypt \
+	postfix postfix-mysql \
+	fetchmail \
+        dovecot-imapd dovecot-mysql dovecot-sieve dovecot-managesieved \
+        spamassassin razor \
 	owncloud \
 	php5-imap \
-	phpmyadmin \
-	postfix postfix-mysql postfixadmin \
-	pwgen \
-	roundcube roundcube-mysql roundcube-plugins roundcube-plugins-extra \
-        spamassassin razor
+	pwgen 
 
 ADD startup.sh /startup.sh
 ADD *-setup.sh /
 RUN chmod +x /startup.sh
-ADD configs/mail.sql /mail.sql
 COPY configs/postfix /etc/postfix
 COPY configs/dovecot /etc/dovecot
 COPY configs/spamassassin /etc/spamassasin
-COPY configs/postfixadmin /etc/postfixadmin
-COPY configs/roundcube /etc/roundcube
-RUN chmod a+r /etc/roundcube/*
+RUN wget http://sourceforge.net/projects/postfixadmin/files/latest/download?source=files -O /postfixadmin.tgz
+RUN tar xf /postfixadmin.tgz 
+RUN rm /postfixadmin.tgz
+RUN mv postfixadmin* /var/www/postfixadmin
+COPY configs/postfixadmin /var/www/postfixadmin
+RUN chown -R www-data.www-data /var/www
+RUN ln -s /etc/php5/mods-available/imap.ini /etc/php5/apache2/conf.d/20-imap.ini
 
 # Cleanup
 RUN apt-get clean
 
-EXPOSE 25 143 993 465 443
+EXPOSE 25 143 993 465 80 443 
 
 ENTRYPOINT [ "/startup.sh" ]
 

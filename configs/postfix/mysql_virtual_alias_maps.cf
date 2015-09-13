@@ -1,7 +1,7 @@
-user = sqladmin
+user = VAR_SQLUSR
 password = VAR_SQLPWD
-hosts = 127.0.0.1
-dbname = mail
+hosts = VAR_SQLHOST
+dbname = VAR_SQLDB
 table = postfix_alias
 select_field = goto
 where_field = address
