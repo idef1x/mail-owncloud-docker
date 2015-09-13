@@ -11,13 +11,14 @@
 
 # Example usage
 Expose everything public:
-
+<p>
 docker run -d \
   -v /etc/localtime:/etc/localtime:ro \
   -v /etc/timezone:/etc/timezone:ro \
   -p 143:143 -p 993:993 -p 25:25 -p 465:465 -p 80:80 -p 443:443 \
   --name mycloud -h <FQDN of host> \
   idef1x/mail-owncloud-docker
+</p>
 
 # Optional environment vars to use:
 - SQLUSR  => mysql admin user (default admin)
@@ -52,6 +53,7 @@ docker run -d \
   - Use 127.0.0.1 as IMAP and SMTP host 
 
 # To use own certificates:
+<p>
 - For Apache certificates add parameters:
   for cert: -v <path to SSL cert>:/etc/ssl/certs/ssl-cert-snakeoil.pem
   for key : -v <path to SSL key>:/etc/ssl/private/ssl-cert-snakeoil.key
@@ -59,4 +61,4 @@ docker run -d \
 - For dovecot/postfix certificates add parameters:
   for cert: -v <path to SSL cert>:/etc/dovecot/dovecot.pem
   for key : -v <path to SSL cert>:/etc/dovecot/private/dovecot.pem
-
+</p>
