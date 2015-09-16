@@ -28,10 +28,11 @@ RUN apt-get update && apt-get install -yq\
         spamassassin razor \
 	owncloud \
 	php5-imap \
-	pwgen 
+	pwgen \
+	supervisor 
 
-ADD startup.sh /startup.sh
-ADD *-setup.sh /
+COPY startup.sh /startup.sh
+COPY *-setup.sh /
 RUN chmod +x /startup.sh
 COPY configs/postfix /etc/postfix
 COPY configs/dovecot /etc/dovecot
@@ -43,6 +44,12 @@ RUN mv postfixadmin* /var/www/postfixadmin
 COPY configs/postfixadmin /var/www/postfixadmin
 RUN chown -R www-data.www-data /var/www
 RUN ln -s /etc/php5/mods-available/imap.ini /etc/php5/apache2/conf.d/20-imap.ini
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY postfix.sh /postfix.sh
+COPY mysql.sh /mysql.sh
+
+RUN chmod -x /etc/init.d/rsyslog
+
 
 # Cleanup
 RUN apt-get clean

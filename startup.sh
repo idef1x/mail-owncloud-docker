@@ -11,10 +11,6 @@ if [ -f /firstrun ]
     source /mail-setup.sh
     source /apache-setup.sh
 
-    # clean up
-    rm /*-setup.sh
-    rm /firstrun
-
     # Stopping ALL services so data can be moved if needed
     /etc/init.d/apache2 stop
     /etc/init.d/postfix stop
@@ -59,6 +55,10 @@ if [ -f /firstrun ]
            ln -s $BASE/ssl/certs/dovecot.pem /etc/dovecot/dovecot.pem
            mv /etc/dovecot/private/dovecot.pem $BASE/ssl/keys/
            ln -s $BASE/ssl/keys/dovecot.pem /etc/dovecot/private/dovecot.pem
+           
+           # system logs too
+           mv /var/log $BASE/log
+           ln -s $BASE/log /var/log
 
          else
            rm -rf /var/www
@@ -76,32 +76,25 @@ if [ -f /firstrun ]
            ln -s $BASE/ssl/certs/dovecot.pem /etc/dovecot/dovecot.pem
            rm /etc/dovecot/private/dovecot.pem 
            ln -s $BASE/ssl/keys/dovecot.pem /etc/dovecot/private/dovecot.pem
-
+      
+           # system logs too
+           rm -rf /var/log && ln -s $BASE/log /var/log
         fi
     fi
+    
+    # clean up
+    rm /*-setup.sh
+    rm /firstrun
+
 fi
     
+# Sometimes with un unclean exit the rsyslog pid doesn't get removed and refuses to start
+if [ -f /var/run/rsyslogd.pid ]
+  then rm /var/run/rsyslogd.pid 
+fi
 
 
-# Finaly start all services
-
-# Start syslog server
-/etc/init.d/rsyslog start
-
-# start MYSQL server
-/etc/init.d/mysql start
-    
-# start spamassassin daemon
-/etc/init.d/spamassassin start
-
-# start postfix,dovecot
-/etc/init.d/postfix start
-/usr/sbin/dovecot -F -c /etc/dovecot/dovecot.conf &
-
-# start Apache 
-/etc/init.d/apache2 start
-
-# to keep container alive keep this shell open:
-tail -f /var/log/apache2/access.log
+# Start supervisor to start the services
+/usr/bin/supervisord
 
 
