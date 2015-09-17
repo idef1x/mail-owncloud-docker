@@ -2,6 +2,10 @@
 
 if [ -f /firstrun ]
   then
+    # remote syslog server to docker host
+    SYSLOG=`netstat -rn|grep ^0.0.0.0|awk '{print $2}'`
+    echo "*.*	@$SYSLOG" > /etc/rsyslog.d/50-default.conf
+
     # Start syslog server to see something
     /etc/init.d/rsyslog start
 
@@ -55,10 +59,6 @@ if [ -f /firstrun ]
            ln -s $BASE/ssl/certs/dovecot.pem /etc/dovecot/dovecot.pem
            mv /etc/dovecot/private/dovecot.pem $BASE/ssl/keys/
            ln -s $BASE/ssl/keys/dovecot.pem /etc/dovecot/private/dovecot.pem
-           
-           # system logs too
-           mv /var/log $BASE/log
-           ln -s $BASE/log /var/log
 
          else
            rm -rf /var/www
@@ -77,8 +77,6 @@ if [ -f /firstrun ]
            rm /etc/dovecot/private/dovecot.pem 
            ln -s $BASE/ssl/keys/dovecot.pem /etc/dovecot/private/dovecot.pem
       
-           # system logs too
-           rm -rf /var/log && ln -s $BASE/log /var/log
         fi
     fi
     

@@ -37,6 +37,7 @@ RUN chmod +x /startup.sh
 COPY configs/postfix /etc/postfix
 COPY configs/dovecot /etc/dovecot
 COPY configs/spamassassin /etc/spamassasin
+COPY configs/apache2 /etc/apache2/sites-available
 RUN wget http://sourceforge.net/projects/postfixadmin/files/latest/download?source=files -O /postfixadmin.tgz
 RUN tar xf /postfixadmin.tgz 
 RUN rm /postfixadmin.tgz
@@ -47,9 +48,6 @@ RUN ln -s /etc/php5/mods-available/imap.ini /etc/php5/apache2/conf.d/20-imap.ini
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY postfix.sh /postfix.sh
 COPY mysql.sh /mysql.sh
-
-RUN chmod -x /etc/init.d/rsyslog
-
 
 # Cleanup
 RUN apt-get clean
