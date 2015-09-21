@@ -61,8 +61,24 @@ if [ -f /firstrun ]
            ln -s $BASE/ssl/keys/dovecot.pem /etc/dovecot/private/dovecot.pem
 
          else
-           rm -rf /var/www
-           ln -s $BASE/www /var/www 
+           # for updated owncloud and postfixadmin mv them in right location and copy configs/data
+           mv $BASE/www $BASE/www.old
+           mv /var/www $BASE/www
+           ln -s $BASE/www /var/www
+	   # copying configs
+           cp $BASE/www.old/html/config/config.php $BASE/www/html/config/config.php
+           cp $BASE/www.old/postfixadmin/config.local.php $BASE/www/postfixadmin/config.local.php
+           # moving owncloud data
+           rm -rf $BASE/www/html/data
+	   mv $BASE/www.old/html/data $BASE/www/html/data
+           # also copy apps, since reenabling them whithout being installed yet will give a start update process 
+           # for every app :(. You still have to reenable them though. but that's owncloud's thing
+           cp -dpr $BASE/www.old/html/apps $BASE/www/html/
+           # Set ownership of www dir to www-data
+           chown -R www-data.www-data $BASE/www
+           # clean-up old owncloud dir...
+           rm -rf $BASE/www.old
+
            rm -rf /var/lib/mysql
            ln -s $BASE/mysql /var/lib/mysql
            rm -rf /var/vmail

@@ -10,12 +10,16 @@
 - mysql server to hold al mail and owncloud configurations/data
 
 # Example usage
+
+NB: when you want persistence storage, please mount it under /data (see example below for host path), and all data will be moved there.
+
 Expose everything public:
 ```
 docker run -d \
   -v /etc/localtime:/etc/localtime:ro \
   -v /etc/timezone:/etc/timezone:ro \
-  -p 143:143 -p 993:993 -p 25:25 -p 465:465 -p 80:80 -p 443:443 \
+  -v <path to data on host>:/data \
+  -p 143:143 -p 993:993 -p 4190:4190 -p 25:25 -p 465:465 -p 80:80 -p 443:443 \
   --name mycloud -h <FQDN of host> \
   idef1x/mail-owncloud-docker
 ```
@@ -67,4 +71,5 @@ docker run -d \
 ```
 
 # Logging
-- all logging is now sent to a syslog server on the dockerhost
+- all logging is sent to a syslog server on the dockerhost
+
