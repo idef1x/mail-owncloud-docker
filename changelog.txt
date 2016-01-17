@@ -1,6 +1,7 @@
 Changelogs will go here in case it's not suitable to put in the README.md
 
 date:
+20160117:	updated for owncloud to install v8.2.2
 20151230: 	nothing changed actually, but somehow the automatic build on the Docker hub failed due to 
         	postfixadmin downloaded incorrectly. It failed locally once as well, but then it 
 		went oke again, so there's nothing wrong with the build file :)
