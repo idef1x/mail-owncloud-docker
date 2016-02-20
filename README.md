@@ -6,8 +6,10 @@
 - dovecot imap server
 - dovecot sieve for filtering rules
 - spamassassin for spam filtering
-- owncloud for files and calendar/contacts sync
+- Owncloud for files and calendar/contacts sync 
 - mysql server to hold al mail and owncloud configurations/data
+
+NB: All latest versions on new build
 
 # Example usage
 
