@@ -31,8 +31,6 @@ fi
     if [ "$SQLHOST" == "127.0.0.1" ]
       then echo "creating database mail for postfix,dovecot and postfixadmin"
         mysql -u$SQLUSR -p$SQLPWD -e "create database mail"
-# 	echo "creating database owncloud for owncloud"
-#        mysql -u$SQLUSR -p$SQLPWD -e "create database owncloud"
     fi
 
     # Configure postfix
