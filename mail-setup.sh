@@ -12,10 +12,10 @@ fi
     sed -i "s/ENABLED=0/ENABLED=1/g" /etc/default/spamassassin
     
     # Adapt configs to contain SQL password:
-    sed -i "s/VAR_SQLPWD/$SQLPWD/g" /etc/postfix/*
-    sed -i "s/VAR_SQLUSR/$SQLUSR/g" /etc/postfix/*
-    sed -i "s/VAR_SQLHOST/$SQLHOST/g" /etc/postfix/*
-    sed -i "s/VAR_SQLDB/$SQLDB/g" /etc/postfix/*
+    sed -i "s/VAR_SQLPWD/$SQLPWD/g" /etc/postfix/mysql*.cf
+    sed -i "s/VAR_SQLUSR/$SQLUSR/g" /etc/postfix/mysql*.cf
+    sed -i "s/VAR_SQLHOST/$SQLHOST/g" /etc/postfix/mysql*.cf
+    sed -i "s/VAR_SQLDB/$SQLDB/g" /etc/postfix/mysql*.cf
 
     sed -i "s/VAR_SQLPWD/$SQLPWD/g" /etc/dovecot/dovecot-sql.conf.ext
     sed -i "s/VAR_SQLUSR/$SQLUSR/g" /etc/dovecot/dovecot-sql.conf.ext
@@ -38,10 +38,13 @@ fi
     postconf -e "myhostname = `cat /etc/hostname`" 
     postconf -e "mydestination = `cat /etc/hostname`" 
     postconf -e "inet_interfaces = all" 
+
+    # Create selfsigned certificates for Dovecot, cause it doesn't do that automatically in xenial
+    echo "Creating self-signed certs for dovecot "
+    cd /usr/share/dovecot && ./mkcert.sh
     
     # configure postfixadmin 
     echo "Alias /postfixadmin /var/www/postfixadmin" > /etc/apache2/conf-available/postfixadmin.conf
-    ln -s /etc/apache2/conf-available/postfixadmin.conf /etc/apache2/conf-available/postfixadmin.conf 
     a2enconf postfixadmin 
     # Set correct url for postafixadmin site, cause it originally shows a russian site
     #sed -i "s/postfixadmin\.com/postfixadmin\.sf\.net/g" /usr/share/postfixadmin/templates/footer.php
