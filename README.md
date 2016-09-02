@@ -27,7 +27,7 @@ docker run -d \
 ```
 # Optional environment vars to use:
 ```
-- SQLUSR  => mysql admin user (default admin)
+- SQLUSR  => mysql admin user (default sqladmin)
 - SQLPWD  => mysql user password (default random generated -> see logs for the password (docker logs <container ID>|grep password)
 - SQLHOST => in case you use an external mysql server (default localhost)
 - SQLDB   => in case you use an extern mysql server (default mail for mail and owncloud for owncloud)
@@ -39,7 +39,7 @@ docker run -d \
 - First setup goto http(s)://hostname/postfixadmin/setup.php to initialize database
 - setup an setup password and copy paste the red $CONF string into /var/www/postfixadmin/config.local.php (before the last ?>):
   - open een shell in the container: docker exec -it <container ID> bash
-  - edit file (vi)
+  - edit file: export TERM=linux && nano /var/www/postfixadmin/config.local.php 
   - save and exit shell
 - Then goto http(s)://hostname/postfixadmin to configure domains and mailboxes etc
 ```

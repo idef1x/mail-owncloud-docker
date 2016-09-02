@@ -2,7 +2,7 @@
 #
 # VERSION               0.5
 
-FROM      ubuntu:14.04
+FROM      ubuntu:16.04
 MAINTAINER idef1x <docker@sjomar.eu>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -12,8 +12,8 @@ RUN apt-get update \
   && apt-get install -y wget
 
 # Getting owncloud repo
-RUN sh -c "echo 'deb http://download.owncloud.org/download/repositories/stable/Ubuntu_14.04/ /' >> /etc/apt/sources.list.d/owncloud.list" \
-  && wget -nv https://download.owncloud.org/download/repositories/stable/Ubuntu_14.04/Release.key -O Release.key \
+RUN sh -c "echo 'deb http://download.owncloud.org/download/repositories/stable/Ubuntu_16.04/ /' >> /etc/apt/sources.list.d/owncloud.list" \
+  && wget -nv https://download.owncloud.org/download/repositories/stable/Ubuntu_16.04/Release.key -O Release.key \
   && apt-key add - < Release.key \
   && rm Release.key
 
@@ -26,8 +26,12 @@ RUN apt-get update && apt-get install -yq\
         dovecot-imapd dovecot-mysql dovecot-sieve dovecot-managesieved \
         spamassassin razor \
 	owncloud \
-	php5-imap \
+	owncloud-deps-php7.0 \
+	owncloud-files \
+	php7.0-imap \
 	pwgen \
+	rsyslog \
+	nano \
 	supervisor 
 
 # get postfixadmin
@@ -35,6 +39,8 @@ RUN wget http://sourceforge.net/projects/postfixadmin/files/latest/download?sour
   && tar xf /postfixadmin.tgz \
   && rm /postfixadmin.tgz \
   && mv postfixadmin* /var/www/postfixadmin
+# Default init values for datetime are incorrect for postfixadmin to create the database correctly at setup (16.04 version)
+RUN sed -i "s/0000-00-00/1000-01-01/g" /var/www/postfixadmin/*.php
 
 COPY *.sh /
 RUN chmod +x /startup.sh
@@ -45,7 +51,8 @@ COPY configs/apache2 /etc/apache2/sites-available
 COPY configs/postfixadmin /var/www/postfixadmin
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN chown -R www-data.www-data /var/www
-RUN ln -s /etc/php5/mods-available/imap.ini /etc/php5/apache2/conf.d/20-imap.ini
+# Is done now automagically:
+#RUN ln -s /etc/php/7.0/mods-available/imap.ini /etc/php/7.0/apache2/conf.d/20-imap.ini
 
 # make startup script know it's the first run and clean-up
 RUN touch /firstrun \
