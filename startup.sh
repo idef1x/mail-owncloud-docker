@@ -3,8 +3,8 @@
 if [ -f /firstrun ]
   then
     # remote syslog server to docker host
-    SYSLOG=`netstat -rn|grep ^0.0.0.0|awk '{print $2}'`
-    echo "*.*	@$SYSLOG" > /etc/rsyslog.d/50-default.conf
+#    SYSLOG=`netstat -rn|grep ^0.0.0.0|awk '{print $2}'`
+#    echo "*.*	@$SYSLOG" > /etc/rsyslog.d/50-default.conf
 
     # Start syslog server to see something
     /etc/init.d/rsyslog start
