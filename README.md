@@ -1,3 +1,5 @@
+ [![](https://images.microbadger.com/badges/image/idef1x/mail-owncloud-docker.svg)](https://microbadger.com/images/idef1x/mail-owncloud-docker "Get your own image badge on microbadger.com")
+
 # mail-owncloud-docker
 **Contents:**
 - postfix smtp mailserver with virtual domains/users and authentication
