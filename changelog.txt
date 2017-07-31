@@ -1,6 +1,7 @@
 Changelogs will go here in case it's not suitable to put in the README.md
 
 date:
+20170731:	postfixadmin and owncloud issue fixed
 20160902:	updated to ubuntu 16.04 and owncloud 9.1.0
 20160117:	updated for owncloud to install v8.2.2
 20151230: 	nothing changed actually, but somehow the automatic build on the Docker hub failed due to 
