@@ -74,6 +74,3 @@ docker run -d \
   for key : -v <path to SSL cert>:/etc/dovecot/private/dovecot.pem
 ```
 
-# Logging
-- all logging is sent to a syslog server on the dockerhost
-
