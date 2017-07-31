@@ -38,7 +38,9 @@ RUN apt-get update && apt-get install -yq\
 RUN wget http://sourceforge.net/projects/postfixadmin/files/latest/download?source=files -O /postfixadmin.tgz \
   && tar xf /postfixadmin.tgz \
   && rm /postfixadmin.tgz \
-  && mv postfixadmin* /var/www/postfixadmin
+  && mv postfixadmin* /var/www/postfixadmin \
+  && mkdir /var/www/postfixadmin/templates_c
+
 # Default init values for datetime are incorrect for postfixadmin to create the database correctly at setup (16.04 version)
 RUN sed -i "s/0000-00-00/1000-01-01/g" /var/www/postfixadmin/*.php
 
